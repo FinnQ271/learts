@@ -1,2 +1,143 @@
 #root { min-height: 100vh; }
 main { display: block; }
+
+/* ==========================================
+   PRODUCT CARD GRID & ALIGNMENT OVERRIDES
+   ========================================== */
+
+/* Enforce uniform card container */
+.product {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  background-color: #ffffff !important;
+  margin-bottom: 30px !important;
+}
+
+/* Enforce uniform thumbnail height and background */
+.product .product-thumb {
+  position: relative !important;
+  width: 100% !important;
+  aspect-ratio: 270 / 330 !important; /* Exact aspect ratio of standard theme images */
+  background-color: #f4f4f4 !important; /* Match light gray background */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  border-radius: 4px !important;
+}
+
+/* Prevent anchor collapse to center of card */
+.product .product-thumb .image {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+}
+
+/* Force product images to scale and cover the container uniformly */
+.product .product-thumb .image img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important; /* Cover keeps images uniform and fills the gray background */
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  transition: all 0.5s ease !important;
+}
+
+/* Correct badges container alignment relative to the full thumbnail box */
+.product .product-thumb .product-badges {
+  position: absolute !important;
+  top: 15px !important;
+  left: 15px !important;
+  z-index: 10 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 5px !important;
+  pointer-events: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Badge style details */
+.product .product-thumb .product-badges span {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 50% !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  color: #ffffff !important;
+  line-height: 1 !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+.product .product-thumb .product-badges span.hot {
+  background-color: #c92c2c !important; /* Red for hot/nóng */
+}
+
+.product .product-thumb .product-badges span.onsale {
+  background-color: #64b496 !important; /* Green for sale/doanh */
+}
+
+.product .product-thumb .product-badges span.new {
+  background-color: #a87057 !important; /* Brown for new */
+}
+
+/* Keep title and price area aligned */
+.product .product-info {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  padding: 15px 0 0 0 !important;
+  background: transparent !important;
+  text-align: center !important;
+  flex-grow: 1 !important;
+}
+
+/* Title alignment and single line containment */
+.product .product-info .title {
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  margin: 0 0 8px 0 !important;
+  height: 20px !important;
+  line-height: 20px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  width: 100% !important;
+}
+
+.product .product-info .title a {
+  color: #333333 !important;
+}
+
+/* Price alignment and spacing */
+.product .product-info .price {
+  display: block !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: #a87057 !important;
+  height: 22px !important;
+  line-height: 22px !important;
+  margin-bottom: 10px !important;
+  width: 100% !important;
+}
+
+.product .product-info .price .old {
+  text-decoration: line-through !important;
+  color: #999999 !important;
+  margin-right: 8px !important;
+  font-weight: 400 !important;
+}
+
+.product .product-info .price .new {
+  color: #c92c2c !important;
+}

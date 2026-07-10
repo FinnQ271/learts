@@ -137,9 +137,15 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
               ) : (
                 badges.map((badge: string, idx: number) => {
                   const bLower = badge.toLowerCase();
-                  if (bLower === "hot") {
+                  if (bLower === "hot" || bLower === "nóng" || bLower === "hot product") {
                     return <span key={idx} className="hot">{badge}</span>;
-                  } else if (bLower.includes("%") || bLower === "sale") {
+                  } else if (
+                    bLower.includes("%") ||
+                    bLower === "sale" ||
+                    bLower.includes("giảm") ||
+                    bLower.includes("khuyến mãi") ||
+                    bLower.includes("doanh")
+                  ) {
                     return <span key={idx} className="onsale">{badge}</span>;
                   } else {
                     return <span key={idx} className="new">{badge}</span>;
