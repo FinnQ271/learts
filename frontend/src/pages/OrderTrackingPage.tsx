@@ -1,0 +1,7 @@
+import PageShell from "../components/PageShell";
+
+const content = "<div class=\"page-title-section section\" data-bg-image=\"/assets/images/bg/page-title-1.webp\">\n<div class=\"container\">\n<div class=\"row\">\n<div class=\"col\">\n<div class=\"page-title\">\n<h1 class=\"title\">Order Tracking</h1>\n<ul class=\"breadcrumb\">\n<li class=\"breadcrumb-item\"><a href=\"/index\">Home</a></li>\n<li class=\"breadcrumb-item active\">Order Tracking</li>\n</ul>\n</div>\n</div>\n</div>\n</div>\n</div><div class=\"section section-padding\">\n<div class=\"container\">\n<div class=\"order-tracking\">\n<p>To track your order please enter your Order ID in the box below and press the \"Track\" button. This was given to you on your receipt and in the confirmation email you should have received.</p>\n<form action=\"#\">\n<div class=\"row learts-mb-n30\">\n<div class=\"col-12 learts-mb-30\">\n<label for=\"orderID\">Order ID</label>\n<input id=\"orderID\" placeholder=\"Found in your order confirmation email.\" type=\"text\"/>\n</div>\n<div class=\"col-12 learts-mb-30\">\n<label for=\"billingEmail\">Billing email</label>\n<input id=\"billingEmail\" placeholder=\"Email you used during checkout.\" type=\"text\"/>\n</div>\n<div class=\"col-12 text-center learts-mb-30\">\n<button class=\"btn btn-dark btn-outline-hover-dark\">Track</button>\n</div>\n</div>\n</form>\n</div>\n</div>\n</div>";
+
+export default function OrderTrackingPage() {
+  return <PageShell title="Learts \u2013 Handmade Shop eCommerce HTML Template" content={content} />;
+}

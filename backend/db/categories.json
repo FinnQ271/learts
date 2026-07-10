@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "title": "Toys",
+    "itemCount": 6,
+    "image": "/assets/images/banner/category/banner-s2-1.webp",
+    "badge": "NEW COLLECTION"
+  },
+  {
+    "id": 2,
+    "title": "Kniting & Sewing",
+    "itemCount": 4,
+    "image": "/assets/images/banner/category/banner-s2-2.webp",
+    "badge": "SALE UP TO 40%"
+  },
+  {
+    "id": 3,
+    "title": "Gift ideas",
+    "itemCount": 16,
+    "image": "/assets/images/banner/category/banner-s2-3.webp",
+    "badge": "BEST SELLERS"
+  },
+  {
+    "id": 4,
+    "title": "Home Decor",
+    "itemCount": 16,
+    "image": "/assets/images/banner/category/banner-s2-4.webp",
+    "badge": "BEST SELLERS"
+  }
+]

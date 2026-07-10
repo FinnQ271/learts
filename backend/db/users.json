@@ -1,0 +1,14 @@
+[
+  {
+    "id": "admin-1",
+    "email": "admin@learts.com",
+    "password": "$2a$10$yZxxT5shWx0nlr0qDNTAN.s5k2Nrs4JISOqEwP86EVmO3ufVF71lO",
+    "role": "admin"
+  },
+  {
+    "id": "user-1783655154071",
+    "email": "namOk@gmail.com",
+    "password": "$2a$10$uT5y.IFc3AyvqUez3rN8Me2pGZfG1seAGUOoFoemVy1wlo9x3s2de",
+    "role": "customer"
+  }
+]

@@ -1,0 +1,415 @@
+[
+  {
+    "id": "1",
+    "title": "3D Attractive Pot",
+    "price": 90,
+    "priceDisplay": "$90.00",
+    "image": "/assets/images/product/s328/product-17.webp",
+    "hoverImage": "/assets/images/product/s328/product-17-hover.webp",
+    "category": "Pots",
+    "badges": [],
+    "isFeatured": true,
+    "stock": 7,
+    "sku": "POT-001",
+    "brand": "Diana Day",
+    "description": "Designed to stand out, this 3D Attractive Pot features standard geometric aesthetics and a smooth surface. It's suitable for small houseplants and succulent arrangements. Its sturdy construction keeps your plants secure and adds a modern touch to your workspace.",
+    "images": [
+      "/assets/images/product/single/1/product-1.webp",
+      "/assets/images/product/single/1/product-2.webp",
+      "/assets/images/product/single/1/product-3.webp",
+      "/assets/images/product/single/1/product-4.webp"
+    ],
+    "sizes": [
+      "Large",
+      "Medium"
+    ],
+    "colors": [
+      "#000000",
+      "#ffffff"
+    ]
+  },
+  {
+    "id": "2",
+    "title": "Antique Sewing Scissors",
+    "price": 12,
+    "priceDisplay": "$12.00",
+    "oldPrice": "$15.00",
+    "image": "/assets/images/product/s328/product-25.webp",
+    "hoverImage": "/assets/images/product/s328/product-25-hover.webp",
+    "category": "Kniting & Sewing",
+    "badges": [
+      "-20%"
+    ],
+    "isFeatured": true,
+    "stock": 5,
+    "sku": "SEW-002",
+    "brand": "Alexander",
+    "description": "These Antique Sewing Scissors combine classic detailing with sharp steel blades, making them perfect for precise fabric cutting and detailing work. Ergonomic handles provide a comfortable grip, while the vintage aesthetic makes them a beautiful addition to any craft box.",
+    "images": [
+      "/assets/images/product/single/1/product-2.webp",
+      "/assets/images/product/single/1/product-3.webp",
+      "/assets/images/product/single/1/product-4.webp",
+      "/assets/images/product/single/1/product-1.webp"
+    ],
+    "sizes": [
+      "Medium",
+      "Small"
+    ],
+    "colors": [
+      "#997950"
+    ]
+  },
+  {
+    "id": "3",
+    "title": "Boho Beard Mug",
+    "price": 39,
+    "priceDisplay": "$39.00",
+    "oldPrice": "$45.00",
+    "image": "/assets/images/product/s328/product-1.webp",
+    "hoverImage": "/assets/images/product/s328/product-1-hover.webp",
+    "category": "Gift ideas",
+    "badges": [
+      "-13%"
+    ],
+    "isFeatured": true,
+    "stock": 12,
+    "sku": "MUG-003",
+    "brand": "Carmella",
+    "description": "A quirky and stylish ceramic mug with a handmade Boho Beard finish. Perfect for morning coffees and teas, it holds up to 350ml and is dishwasher safe. Surprise your family or friends with this unique gift that brings warmth and character to every sip.",
+    "images": [
+      "/assets/images/product/single/1/product-3.webp",
+      "/assets/images/product/single/1/product-4.webp",
+      "/assets/images/product/single/1/product-1.webp",
+      "/assets/images/product/single/1/product-2.webp"
+    ],
+    "sizes": [
+      "Medium"
+    ],
+    "colors": [
+      "#d5b85a",
+      "#ffffff"
+    ]
+  },
+  {
+    "id": "4",
+    "title": "Decorative Christmas Fox",
+    "price": 50,
+    "priceDisplay": "$50.00",
+    "image": "/assets/images/product/s328/product-8.webp",
+    "hoverImage": "/assets/images/product/s328/product-8-hover.webp",
+    "category": "Home Decor",
+    "badges": [
+      "hot"
+    ],
+    "isFeatured": true,
+    "stock": 3,
+    "sku": "FOX-004",
+    "brand": "Diana Day",
+    "description": "Bring festive cheer to your mantelpiece or shelf with this Decorative Christmas Fox. Carefully crafted from high-quality felt and wooden elements, it blends rustic charm with playful holiday vibes. A must-have accessory for cozy winter setups.",
+    "images": [
+      "/assets/images/product/single/1/product-4.webp",
+      "/assets/images/product/single/1/product-1.webp",
+      "/assets/images/product/single/1/product-2.webp",
+      "/assets/images/product/single/1/product-3.webp"
+    ],
+    "sizes": [
+      "Small"
+    ],
+    "colors": [
+      "#b2483c"
+    ]
+  },
+  {
+    "id": "5",
+    "title": "Brush & Dustpan Set",
+    "price": 9,
+    "priceDisplay": "$9.00",
+    "image": "/assets/images/product/s328/product-15.webp",
+    "hoverImage": "/assets/images/product/s328/product-15-hover.webp",
+    "category": "Kitchen",
+    "badges": [],
+    "isFeatured": true,
+    "stock": 15,
+    "sku": "KIT-005",
+    "brand": "Gasmine",
+    "description": "Keep your countertops clean with this compact Brush & Dustpan Set. Perfect for swept-up crumbs and small debris. The soft-grip handle provides comfortable usage, and the locking design makes it extremely easy to store anywhere in your kitchen.",
+    "images": [
+      "/assets/images/product/single/1/product-1.webp",
+      "/assets/images/product/single/1/product-2.webp",
+      "/assets/images/product/single/1/product-3.webp"
+    ],
+    "sizes": [
+      "Small"
+    ],
+    "colors": [
+      "#ffffff",
+      "#01796f"
+    ]
+  },
+  {
+    "id": "6",
+    "title": "Adhesive Tape Dispenser",
+    "price": 15,
+    "priceDisplay": "$15.00",
+    "image": "/assets/images/product/s328/product-30.webp",
+    "hoverImage": "/assets/images/product/s328/product-30-hover.webp",
+    "category": "Home Decor",
+    "badges": [
+      "hot"
+    ],
+    "isFeatured": true,
+    "stock": 6,
+    "sku": "OFF-006",
+    "brand": "Emilia",
+    "description": "Crafted from solid oak wood, this Adhesive Tape Dispenser is both functional and decorative. The weighted base ensures stable, one-handed dispensing, while the sleek wooden finish fits beautifully in any modern workspace or home office.",
+    "images": [
+      "/assets/images/product/single/1/product-2.webp",
+      "/assets/images/product/single/1/product-3.webp",
+      "/assets/images/product/single/1/product-4.webp"
+    ],
+    "sizes": [
+      "Medium"
+    ],
+    "colors": [
+      "#997950"
+    ]
+  },
+  {
+    "id": "7",
+    "title": "Aluminum Equestrian",
+    "price": 100,
+    "priceDisplay": "$100.00",
+    "image": "/assets/images/product/s328/product-9.webp",
+    "hoverImage": "/assets/images/product/s328/product-9-hover.webp",
+    "category": "Home Decor",
+    "badges": [],
+    "isFeatured": true,
+    "stock": 4,
+    "sku": "DEC-007",
+    "brand": "Juliette",
+    "description": "An elegant horse figurine sculpted from premium grade aluminum. The brushed metal texture catches light beautifully, making it an eye-catching centerpiece for bookshelves, study tables, or entryway displays. A sophisticated gift for art lovers.",
+    "images": [
+      "/assets/images/product/single/1/product-3.webp",
+      "/assets/images/product/single/1/product-4.webp",
+      "/assets/images/product/single/1/product-1.webp"
+    ],
+    "sizes": [
+      "Large"
+    ],
+    "colors": [
+      "#c2c2c2"
+    ]
+  },
+  {
+    "id": "8",
+    "title": "Electric Egg Blender",
+    "price": 200,
+    "priceDisplay": "$200.00",
+    "image": "/assets/images/product/s328/product-11.webp",
+    "hoverImage": "/assets/images/product/s328/product-11-hover.webp",
+    "category": "Kitchen",
+    "badges": [],
+    "isFeatured": true,
+    "stock": 5,
+    "sku": "KIT-008",
+    "brand": "Gasmine",
+    "description": "Beat eggs, mix batters, and whip creams effortlessly with this high-speed Electric Egg Blender. It features 3 speed settings, a powerful yet quiet motor, and stainless steel attachments that are fully dishwasher safe. A kitchen essential.",
+    "images": [
+      "/assets/images/product/single/1/product-4.webp",
+      "/assets/images/product/single/1/product-1.webp",
+      "/assets/images/product/single/1/product-2.webp"
+    ],
+    "sizes": [
+      "Medium"
+    ],
+    "colors": [
+      "#ffffff",
+      "#000000"
+    ]
+  },
+  {
+    "id": "9",
+    "title": "Kids Wooden blocks",
+    "price": 45,
+    "priceDisplay": "$45.00",
+    "image": "/assets/images/product/s328/product-12.webp",
+    "hoverImage": "/assets/images/product/s328/product-12-hover.webp",
+    "category": "Toys",
+    "badges": [
+      "hot"
+    ],
+    "isFeatured": false,
+    "stock": 10,
+    "sku": "TOY-009",
+    "brand": "Jack & Ella",
+    "description": "Nurture creativity and motor skills with these natural wood building blocks. Painted with non-toxic, water-based paints, they are completely safe for children. The set includes 40 pieces of various shapes and colors.",
+    "images": [
+      "/assets/images/product/single/1/product-1.webp",
+      "/assets/images/product/single/1/product-2.webp"
+    ],
+    "sizes": [
+      "Large"
+    ],
+    "colors": [
+      "#d5b85a",
+      "#b2483c",
+      "#01796f"
+    ]
+  },
+  {
+    "id": "10",
+    "title": "Lucky Wooden Elephant",
+    "price": 35,
+    "priceDisplay": "$35.00",
+    "image": "/assets/images/product/s328/product-2.webp",
+    "hoverImage": "/assets/images/product/s328/product-2-hover.webp",
+    "category": "Toys",
+    "badges": [],
+    "isFeatured": false,
+    "stock": 2,
+    "sku": "TOY-010",
+    "brand": "Jack & Ella",
+    "description": "Hand-carved from sustainable pine, this Lucky Wooden Elephant features smooth contours and a rotating trunk. According to traditional folklore, it brings prosperity and positive energy to whichever home it dwells in.",
+    "images": [
+      "/assets/images/product/single/1/product-2.webp",
+      "/assets/images/product/single/1/product-3.webp"
+    ],
+    "sizes": [
+      "Medium"
+    ],
+    "colors": [
+      "#997950"
+    ]
+  },
+  {
+    "id": "11",
+    "title": "Bohemian Ceramic Pitcher",
+    "price": 75,
+    "priceDisplay": "$75.00",
+    "image": "/assets/images/product/s328/product-19.webp",
+    "hoverImage": "/assets/images/product/s328/product-19.webp",
+    "category": "Gift ideas",
+    "badges": [],
+    "isFeatured": false,
+    "stock": 7,
+    "sku": "GIF-011",
+    "brand": "Carmella",
+    "description": "Serve your drinks in style or display dried botanicals with this Bohemian Ceramic Pitcher. Painted by hand with subtle floral patterns, it highlights traditional craftsmanship and coordinates beautifully with rustic setups.",
+    "images": [
+      "/assets/images/product/single/1/product-3.webp",
+      "/assets/images/product/single/1/product-4.webp"
+    ],
+    "sizes": [
+      "Large"
+    ],
+    "colors": [
+      "#ffffff",
+      "#d5b85a"
+    ]
+  },
+  {
+    "id": "12",
+    "title": "Minimalist Pot Holder",
+    "price": 25,
+    "priceDisplay": "$25.00",
+    "image": "/assets/images/product/s328/product-14.webp",
+    "hoverImage": "/assets/images/product/s328/product-14-hover.webp",
+    "category": "Pots",
+    "badges": [],
+    "isFeatured": false,
+    "stock": 14,
+    "sku": "POT-012",
+    "brand": "Diana Day",
+    "description": "Constructed from double-layered cotton canvas, this pot holder protects surfaces from heat while adding a minimalistic vibe to your kitchen. Complete with a hanging loop for easy storage.",
+    "images": [
+      "/assets/images/product/single/1/product-4.webp",
+      "/assets/images/product/single/1/product-1.webp"
+    ],
+    "sizes": [
+      "Medium"
+    ],
+    "colors": [
+      "#ffffff",
+      "#000000"
+    ]
+  },
+  {
+    "id": "13",
+    "title": "Handmade Clay Bowl",
+    "price": 18,
+    "priceDisplay": "$18.00",
+    "image": "/assets/images/product/s328/product-25.webp",
+    "hoverImage": "/assets/images/product/s328/product-25-hover.webp",
+    "category": "Kids & Babies",
+    "badges": [],
+    "isFeatured": false,
+    "stock": 9,
+    "sku": "KID-013",
+    "brand": "Danielle",
+    "description": "This organic clay bowl is handmade using traditional wheel throwing techniques. Glazed with lead-free, food-safe colors, it's perfect for feeding toddlers and children. Durable, dishwasher safe, and microwave friendly.",
+    "images": [
+      "/assets/images/product/single/1/product-1.webp",
+      "/assets/images/product/single/1/product-2.webp"
+    ],
+    "sizes": [
+      "Small"
+    ],
+    "colors": [
+      "#d5b85a"
+    ]
+  },
+  {
+    "id": "14",
+    "title": "Natural Straw Basket",
+    "price": 32,
+    "priceDisplay": "$32.00",
+    "image": "/assets/images/product/s328/product-31.webp",
+    "hoverImage": "/assets/images/product/s328/product-31.webp",
+    "category": "Home Decor",
+    "badges": [
+      "new"
+    ],
+    "isFeatured": false,
+    "stock": 4,
+    "sku": "BAS-014",
+    "brand": "Juliette",
+    "description": "Woven by hand from natural seagrass, this versatile basket is perfect for storing toys, blankets, laundry, or wrapping indoor potted plants. Folds flat in the middle for multiple storage configurations.",
+    "images": [
+      "/assets/images/product/single/1/product-2.webp",
+      "/assets/images/product/single/1/product-3.webp"
+    ],
+    "sizes": [
+      "Large",
+      "Medium"
+    ],
+    "colors": [
+      "#997950"
+    ]
+  },
+  {
+    "id": "15",
+    "title": "Woven Wool Scarf",
+    "price": 60,
+    "priceDisplay": "$60.00",
+    "image": "/assets/images/product/s328/product-32.webp",
+    "hoverImage": "/assets/images/product/s328/product-32-hover.webp",
+    "category": "Kniting & Sewing",
+    "badges": [],
+    "isFeatured": false,
+    "stock": 6,
+    "sku": "KNI-015",
+    "brand": "Alexander",
+    "description": "Knitted using 100% organic merino wool, this scarf offers ultimate warmth and cozy comfort during winter days. Features classic ribbed stitching and fringes at both ends. Hand wash only.",
+    "images": [
+      "/assets/images/product/single/1/product-3.webp",
+      "/assets/images/product/single/1/product-4.webp"
+    ],
+    "sizes": [
+      "Large"
+    ],
+    "colors": [
+      "#01796f",
+      "#b2483c"
+    ]
+  }
+]

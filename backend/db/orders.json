@@ -1,0 +1,25 @@
+[
+  {
+    "id": "ord-1783653038094",
+    "customer": {
+      "firstName": "qwe",
+      "lastName": "sae",
+      "address": "DVSDV",
+      "town": "SDVSDAVSD",
+      "email": "dfffbhubhucb@gmail.com",
+      "phone": "0514562669"
+    },
+    "items": [
+      {
+        "id": "1",
+        "title": "3D Attractive Pot",
+        "image": "/assets/images/product/s328/product-17.webp",
+        "price": 90,
+        "quantity": 1
+      }
+    ],
+    "total": 90,
+    "status": "Pending",
+    "createdAt": "2026-07-10T03:10:38.094Z"
+  }
+]
