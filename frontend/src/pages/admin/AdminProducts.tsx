@@ -24,6 +24,9 @@ export default function AdminProducts() {
   const [brand, setBrand] = useState("");
   const [imageSource, setImageSource] = useState<"url" | "file">("url");
   const [isUploading, setIsUploading] = useState(false);
+  const [isHot, setIsHot] = useState(false);
+  const [isOnSale, setIsOnSale] = useState(false);
+  const [originalPrice, setOriginalPrice] = useState("");
   
   const navigate = useNavigate();
   const token = localStorage.getItem("adminToken");
@@ -72,6 +75,9 @@ export default function AdminProducts() {
     setDescription("");
     setSku("");
     setBrand("");
+    setIsHot(false);
+    setIsOnSale(false);
+    setOriginalPrice("");
     setIsModalOpen(true);
   };
 
@@ -86,6 +92,13 @@ export default function AdminProducts() {
     setDescription(product.description || "");
     setSku(product.sku || "");
     setBrand(product.brand || "");
+    
+    const productBadges = product.badges || [];
+    const hasHot = productBadges.some((b: string) => b.toLowerCase() === "hot");
+    setIsHot(hasHot);
+    setIsOnSale(!!product.oldPrice);
+    setOriginalPrice(product.oldPrice ? product.oldPrice.replace("$", "") : "");
+    
     setIsModalOpen(true);
   };
 
@@ -148,6 +161,42 @@ export default function AdminProducts() {
       return;
     }
 
+    if (isOnSale) {
+      if (!originalPrice) {
+        alert("Please enter the original price (Giá gốc) for sale products.");
+        return;
+      }
+      const origPriceNum = parseFloat(originalPrice);
+      const salePriceNum = parseFloat(price);
+      if (isNaN(origPriceNum) || origPriceNum <= 0) {
+        alert("Original price (Giá gốc) must be a valid positive number.");
+        return;
+      }
+      if (origPriceNum <= salePriceNum) {
+        alert("Original price (Giá gốc) must be greater than the selling price (Giá bán).");
+        return;
+      }
+    }
+
+    const newBadges: string[] = [];
+    if (isHot) {
+      newBadges.push("hot");
+    }
+
+    let oldPriceVal: string | undefined = undefined;
+    if (isOnSale && originalPrice) {
+      const origPriceNum = parseFloat(originalPrice);
+      const salePriceNum = parseFloat(price);
+      oldPriceVal = `$${origPriceNum.toFixed(2)}`;
+
+      const discount = Math.round(((origPriceNum - salePriceNum) / origPriceNum) * 100);
+      if (discount > 0) {
+        newBadges.push(`-${discount}%`);
+      } else {
+        newBadges.push("sale");
+      }
+    }
+
     const payload = {
       title,
       price: parseFloat(price),
@@ -157,6 +206,8 @@ export default function AdminProducts() {
       description,
       sku,
       brand,
+      oldPrice: oldPriceVal,
+      badges: newBadges,
     };
 
     const url = editingProduct ? `/api/products/${editingProduct.id}` : "/api/products";
@@ -437,6 +488,82 @@ export default function AdminProducts() {
                           </div>
                         </div>
                       )}
+                    </div>
+
+                    <div className="col-12 border-top pt-3 mt-3">
+                      <h5 style={{ fontWeight: "700", fontSize: "16px", marginBottom: "15px" }}>Trạng thái & Ưu đãi / Status & Offers</h5>
+                      <div className="row g-3">
+                        <div className="col-md-6 col-12">
+                          <div className="form-check form-switch p-3 border rounded d-flex justify-content-between align-items-center" style={{ background: isHot ? "#fff9e6" : "#f8f9fa", borderColor: isHot ? "#ffe8a1" : "#eee", transition: "all 0.2s" }}>
+                            <div>
+                              <label className="form-check-label" htmlFor="isHotCheckbox" style={{ fontWeight: "600", cursor: "pointer", display: "block" }}>
+                                Sản phẩm HOT / Hot Product 🔥
+                              </label>
+                              <span className="text-muted" style={{ fontSize: "12px" }}>Hiển thị nhãn HOT nổi bật</span>
+                            </div>
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              role="switch"
+                              id="isHotCheckbox"
+                              checked={isHot}
+                              onChange={(e) => setIsHot(e.target.checked)}
+                              style={{ width: "40px", height: "20px", cursor: "pointer" }}
+                            />
+                          </div>
+                        </div>
+
+                        <div className="col-md-6 col-12">
+                          <div className="form-check form-switch p-3 border rounded d-flex justify-content-between align-items-center" style={{ background: isOnSale ? "#ffebeb" : "#f8f9fa", borderColor: isOnSale ? "#ffd1d1" : "#eee", transition: "all 0.2s" }}>
+                            <div>
+                              <label className="form-check-label" htmlFor="isOnSaleCheckbox" style={{ fontWeight: "600", cursor: "pointer", display: "block" }}>
+                                Đang giảm giá / On Sale 🏷️
+                              </label>
+                              <span className="text-muted" style={{ fontSize: "12px" }}>Cài đặt giá khuyến mãi và nhãn giảm giá</span>
+                            </div>
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              role="switch"
+                              id="isOnSaleCheckbox"
+                              checked={isOnSale}
+                              onChange={(e) => {
+                                setIsOnSale(e.target.checked);
+                                if (!e.target.checked) setOriginalPrice("");
+                              }}
+                              style={{ width: "40px", height: "20px", cursor: "pointer" }}
+                            />
+                          </div>
+                        </div>
+
+                        {isOnSale && (
+                          <div className="col-12 mt-3 animate__animated animate__fadeIn">
+                            <div className="p-3 border rounded" style={{ background: "#fff", borderColor: "#ffd1d1" }}>
+                              <label className="form-label" style={{ fontWeight: "600" }}>
+                                Giá gốc sản phẩm / Original Price ($) <abbr style={{ color: "red" }}>*</abbr>
+                              </label>
+                              <input
+                                type="number"
+                                step="0.01"
+                                className="form-control"
+                                value={originalPrice}
+                                onChange={(e) => setOriginalPrice(e.target.value)}
+                                placeholder="Ví dụ: 99.99 (Giá bán hiện tại phải nhỏ hơn giá gốc này)"
+                                required={isOnSale}
+                              />
+                              <div className="form-text text-muted" style={{ fontSize: "12px" }}>
+                                {price && originalPrice && parseFloat(originalPrice) > parseFloat(price) ? (
+                                  <span className="text-success" style={{ fontWeight: "500" }}>
+                                    Tự động tính giảm giá: -{Math.round(((parseFloat(originalPrice) - parseFloat(price)) / parseFloat(originalPrice)) * 100)}%
+                                  </span>
+                                ) : (
+                                  <span>Vui lòng nhập giá gốc lớn hơn giá bán hiện tại ({price ? `$${price}` : "chưa nhập"})</span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </div>
 
                     <div className="col-md-6 col-12">

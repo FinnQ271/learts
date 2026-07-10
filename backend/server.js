@@ -307,7 +307,7 @@ app.get("/api/products/:id", (req, res) => {
 // POST /api/products - Admin
 app.post("/api/products", authenticateToken, (req, res) => {
   try {
-    const { title, description, price, priceDisplay, image, hoverImage, category, stock, oldPrice, sku, brand, images, sizes, colors } = req.body;
+    const { title, description, price, priceDisplay, image, hoverImage, category, stock, oldPrice, sku, brand, images, sizes, colors, badges, isFeatured } = req.body;
 
     // Strict Validations
     if (!title || price === undefined || !image || !category || stock === undefined) {
@@ -353,6 +353,8 @@ app.post("/api/products", authenticateToken, (req, res) => {
       images: images || [image],
       sizes: sizes || [],
       colors: colors || [],
+      badges: badges || [],
+      isFeatured: isFeatured !== undefined ? isFeatured : true,
     };
 
     products.push(newProduct);
@@ -389,7 +391,7 @@ app.put("/api/products/:id", authenticateToken, (req, res) => {
     }
 
     const existingProduct = products[idx];
-    const { title, description, price, priceDisplay, image, hoverImage, category, stock, oldPrice, sku, brand, images, sizes, colors } = req.body;
+    const { title, description, price, priceDisplay, image, hoverImage, category, stock, oldPrice, sku, brand, images, sizes, colors, badges, isFeatured } = req.body;
 
     // Strict Validations
     let priceNum = existingProduct.price;
@@ -432,6 +434,8 @@ app.put("/api/products/:id", authenticateToken, (req, res) => {
       images: images !== undefined ? images : existingProduct.images,
       sizes: sizes !== undefined ? sizes : existingProduct.sizes,
       colors: colors !== undefined ? colors : existingProduct.colors,
+      badges: badges !== undefined ? badges : existingProduct.badges,
+      isFeatured: isFeatured !== undefined ? isFeatured : existingProduct.isFeatured,
     };
 
     products[idx] = updatedProduct;
