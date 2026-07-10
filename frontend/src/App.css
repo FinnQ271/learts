@@ -1,143 +1,249 @@
+/* ─────────────────────────────────────────
+   ROOT
+───────────────────────────────────────── */
 #root { min-height: 100vh; }
-main { display: block; }
+main  { display: block; }
 
-/* ==========================================
-   PRODUCT CARD GRID & ALIGNMENT OVERRIDES
-   ========================================== */
+/* ─────────────────────────────────────────
+   PRODUCT CARD  (.pc-*)
+   Hover spec:
+     DEFAULT  → main image · title · price visible
+     HOVERED  → hover image · title/price hidden
+                wishlist icon (top-right) + 3 action buttons (bottom-center) appear
+   No layout shift — all overlays are absolute.
+───────────────────────────────────────── */
 
-/* Enforce uniform card container */
-.product {
-  display: flex !important;
-  flex-direction: column !important;
-  height: 100% !important;
-  background-color: #ffffff !important;
-  margin-bottom: 30px !important;
+/* 1. Card wrapper */
+.pc-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #fff;
+  /* no margin — the Bootstrap grid gap handles spacing */
 }
 
-/* Enforce uniform thumbnail height and background */
-.product .product-thumb {
-  position: relative !important;
-  width: 100% !important;
-  aspect-ratio: 270 / 330 !important; /* Exact aspect ratio of standard theme images */
-  background-color: #f4f4f4 !important; /* Match light gray background */
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  overflow: hidden !important;
-  border-radius: 4px !important;
+/* 2. Thumbnail (fixed aspect-ratio box) */
+.pc-thumb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 270 / 330;    /* matches template image ratio */
+  background-color: #f4f4f4;
+  overflow: hidden;
+  border-radius: 2px;
+  cursor: pointer;
 }
 
-/* Prevent anchor collapse to center of card */
-.product .product-thumb .image {
-  display: block !important;
-  width: 100% !important;
-  height: 100% !important;
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
+/* 3. Full-bleed image link */
+.pc-img-link {
+  display: block;
+  position: absolute;
+  inset: 0;
+  text-decoration: none;
 }
 
-/* Force product images to scale and cover the container uniformly */
-.product .product-thumb .image img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important; /* Cover keeps images uniform and fills the gray background */
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  transition: all 0.5s ease !important;
+/* 4. Both images — stacked, full size */
+.pc-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
 }
 
-/* Correct badges container alignment relative to the full thumbnail box */
-.product .product-thumb .product-badges {
-  position: absolute !important;
-  top: 15px !important;
-  left: 15px !important;
-  z-index: 10 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 5px !important;
-  pointer-events: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
+.pc-img--main  { opacity: 1; z-index: 1; }
+.pc-img--hover { opacity: 0; z-index: 2; }
+
+/* Swap images on hover */
+.pc-card:hover .pc-img--main  { opacity: 0; }
+.pc-card:hover .pc-img--hover { opacity: 1; }
+
+/* 5. Badges — always top-left, above everything */
+.pc-badges {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  pointer-events: none;
 }
 
-/* Badge style details */
-.product .product-thumb .product-badges span {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: 48px !important;
-  height: 48px !important;
-  border-radius: 50% !important;
-  font-size: 11px !important;
-  font-weight: 700 !important;
-  text-transform: uppercase !important;
-  color: #ffffff !important;
-  line-height: 1 !important;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+.pc-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #fff;
+  line-height: 1;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  text-align: center;
+  padding: 4px;
 }
 
-.product .product-thumb .product-badges span.hot {
-  background-color: #c92c2c !important; /* Red for hot/nóng */
+.pc-badge--hot  { background-color: #c92c2c; }
+.pc-badge--sale { background-color: #5cb85c; }
+.pc-badge--new  { background-color: #a87057; }
+.pc-badge--out  { background-color: #999; font-size: 16px; }
+
+/* 6. Hover overlay — covers the thumb, invisible until hover */
+.pc-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;         /* pass-through by default */
+  transition: opacity 0.3s ease;
 }
 
-.product .product-thumb .product-badges span.onsale {
-  background-color: #64b496 !important; /* Green for sale/doanh */
+.pc-card:hover .pc-overlay {
+  pointer-events: auto;         /* enable clicks on hover */
 }
 
-.product .product-thumb .product-badges span.new {
-  background-color: #a87057 !important; /* Brown for new */
+/* 7. Wishlist button — top-right, appears on hover */
+.pc-wishlist {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 15;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  font-size: 14px;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: opacity 0.3s ease, transform 0.3s ease, color 0.2s ease, background 0.2s ease;
+  /* hidden by default */
+  opacity: 0;
+  transform: translateY(-6px);
 }
 
-/* Keep title and price area aligned */
-.product .product-info {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: flex-start !important;
-  padding: 15px 0 0 0 !important;
-  background: transparent !important;
-  text-align: center !important;
-  flex-grow: 1 !important;
+.pc-card:hover .pc-wishlist {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-/* Title alignment and single line containment */
-.product .product-info .title {
-  font-size: 15px !important;
-  font-weight: 500 !important;
-  margin: 0 0 8px 0 !important;
-  height: 20px !important;
-  line-height: 20px !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  white-space: nowrap !important;
-  width: 100% !important;
+.pc-wishlist:hover {
+  background: #c92c2c;
+  color: #fff;
 }
 
-.product .product-info .title a {
-  color: #333333 !important;
+.pc-wishlist .fas.fa-heart { color: #e25c5c; }
+.pc-wishlist:hover .fas.fa-heart { color: #fff; }
+
+/* 8. Action buttons row — center-bottom, appears on hover */
+.pc-actions {
+  position: absolute;
+  bottom: 16px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  z-index: 15;
+  /* hidden by default */
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* Price alignment and spacing */
-.product .product-info .price {
-  display: block !important;
-  font-size: 14px !important;
-  font-weight: 600 !important;
-  color: #a87057 !important;
-  height: 22px !important;
-  line-height: 22px !important;
-  margin-bottom: 10px !important;
-  width: 100% !important;
+.pc-card:hover .pc-actions {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.product .product-info .price .old {
-  text-decoration: line-through !important;
-  color: #999999 !important;
-  margin-right: 8px !important;
-  font-weight: 400 !important;
+.pc-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #fff;
+  color: #333;
+  font-size: 14px;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
-.product .product-info .price .new {
-  color: #c92c2c !important;
+.pc-action-btn:hover {
+  background: #333;
+  color: #fff;
+  transform: scale(1.1);
 }
+
+.pc-action-btn--disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.pc-action-btn--disabled:hover {
+  background: #fff;
+  color: #333;
+  transform: none;
+}
+
+/* 9. Info area (title + price) — visible by default, fades out on hover */
+.pc-info {
+  padding: 14px 4px 6px;
+  text-align: center;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  /* reserve space so the card height never changes */
+  min-height: 56px;
+}
+
+.pc-card:hover .pc-info {
+  opacity: 0;
+  transform: translateY(4px);
+  pointer-events: none;
+}
+
+/* 10. Title */
+.pc-title {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0 0 6px;
+  line-height: 1.4;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.pc-title a {
+  color: #333;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.pc-title a:hover { color: #a87057; }
+
+/* 11. Price */
+.pc-price {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #a87057;
+  line-height: 1.3;
+}
+
+.pc-price--old {
+  text-decoration: line-through;
+  color: #aaa;
+  font-weight: 400;
+  margin-right: 6px;
+}
+
+.pc-price--new { color: #c92c2c; }

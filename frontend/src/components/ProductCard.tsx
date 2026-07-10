@@ -16,8 +16,7 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     addItem(product, 1);
-    
-    // Show a premium custom toast
+
     const toast = document.createElement("div");
     toast.className = "cart-toast";
     toast.innerHTML = `
@@ -29,8 +28,6 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
         </div>
       </div>
     `;
-    
-    // Add custom inline styles for premium look
     Object.assign(toast.style, {
       position: "fixed",
       bottom: "30px",
@@ -44,24 +41,17 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
       transition: "all 0.3s ease",
       opacity: "0",
       transform: "translateY(20px)",
-      borderLeft: "4px solid #a87057"
+      borderLeft: "4px solid #a87057",
     });
-
     document.body.appendChild(toast);
-    
-    // Trigger animation
     setTimeout(() => {
       toast.style.opacity = "1";
       toast.style.transform = "translateY(0)";
     }, 10);
-
-    // Remove toast after 3 seconds
     setTimeout(() => {
       toast.style.opacity = "0";
       toast.style.transform = "translateY(20px)";
-      setTimeout(() => {
-        toast.remove();
-      }, 300);
+      setTimeout(() => toast.remove(), 300);
     }, 3000);
   };
 
@@ -70,7 +60,6 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
     toggleWishlist(product);
 
     if (!isFav) {
-      // Show a premium custom toast
       const toast = document.createElement("div");
       toast.className = "wishlist-toast";
       toast.innerHTML = `
@@ -82,8 +71,6 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
           </div>
         </div>
       `;
-      
-      // Add custom inline styles for premium look
       Object.assign(toast.style, {
         position: "fixed",
         bottom: "30px",
@@ -97,129 +84,137 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
         transition: "all 0.3s ease",
         opacity: "0",
         transform: "translateY(20px)",
-        borderLeft: "4px solid #e25c5c"
+        borderLeft: "4px solid #e25c5c",
       });
-
       document.body.appendChild(toast);
-      
-      // Trigger animation
       setTimeout(() => {
         toast.style.opacity = "1";
         toast.style.transform = "translateY(0)";
       }, 10);
-
-      // Remove toast after 3 seconds
       setTimeout(() => {
         toast.style.opacity = "0";
         toast.style.transform = "translateY(20px)";
-        setTimeout(() => {
-          toast.remove();
-        }, 300);
+        setTimeout(() => toast.remove(), 300);
       }, 3000);
     }
   };
 
   const { id, title, priceDisplay, oldPrice, image, hoverImage, badges = [] } = product;
   const link = `/product/${id}`;
-
   const isOutOfStock = product.stock <= 0;
 
   return (
-    <div className="product">
-      <div className="product-thumb">
-        <Link className="image" to={link}>
-          {(badges.length > 0 || isOutOfStock) && (
-            <span className="product-badges">
-              {isOutOfStock ? (
-                <span className="outofstock">
-                  <i className="far fa-frown"></i>
-                </span>
-              ) : (
-                badges.map((badge: string, idx: number) => {
-                  const bLower = badge.toLowerCase();
-                  if (bLower === "hot" || bLower === "nóng" || bLower === "hot product") {
-                    return <span key={idx} className="hot">{badge}</span>;
-                  } else if (
-                    bLower.includes("%") ||
-                    bLower === "sale" ||
-                    bLower.includes("giảm") ||
-                    bLower.includes("khuyến mãi") ||
-                    bLower.includes("doanh")
-                  ) {
-                    return <span key={idx} className="onsale">{badge}</span>;
-                  } else {
-                    return <span key={idx} className="new">{badge}</span>;
-                  }
-                })
-              )}
-            </span>
+    <div className="pc-card">
+      {/* ── THUMBNAIL ── */}
+      <div className="pc-thumb">
+        {/* Badges — top-left, always visible */}
+        {(badges.length > 0 || isOutOfStock) && (
+          <span className="pc-badges">
+            {isOutOfStock ? (
+              <span className="pc-badge pc-badge--out">
+                <i className="far fa-frown" />
+              </span>
+            ) : (
+              badges.map((badge: string, idx: number) => {
+                const bLower = badge.toLowerCase();
+                let cls = "pc-badge--new";
+                if (bLower === "hot" || bLower === "nóng") cls = "pc-badge--hot";
+                else if (
+                  bLower.includes("%") ||
+                  bLower === "sale" ||
+                  bLower.includes("giảm") ||
+                  bLower.includes("doanh")
+                )
+                  cls = "pc-badge--sale";
+                return (
+                  <span key={idx} className={`pc-badge ${cls}`}>
+                    {badge}
+                  </span>
+                );
+              })
+            )}
+          </span>
+        )}
+
+        {/* Main image */}
+        <Link className="pc-img-link" to={link} tabIndex={-1}>
+          <img className="pc-img pc-img--main" src={image} alt={title} />
+          {hoverImage && (
+            <img className="pc-img pc-img--hover" src={hoverImage} alt={title} />
           )}
-          <img alt={title} src={image} />
-          {hoverImage && <img alt={title} className="image-hover" src={hoverImage} />}
         </Link>
-        <a
-          className="add-to-wishlist hintT-left"
-          data-hint={isFav ? "Remove from wishlist" : "Add to wishlist"}
-          href="#"
-          onClick={handleToggleWishlist}
-          style={{ color: isFav ? "#e25c5c" : "" }}
-        >
-          <i className={isFav ? "fas fa-heart" : "far fa-heart"}></i>
-        </a>
+
+        {/* ── HOVER OVERLAY ── */}
+        <div className="pc-overlay">
+          {/* Wishlist — top-right */}
+          <a
+            className="pc-wishlist"
+            href="#"
+            title={isFav ? "Xóa khỏi yêu thích" : "Thêm vào yêu thích"}
+            onClick={handleToggleWishlist}
+          >
+            <i className={isFav ? "fas fa-heart" : "far fa-heart"} />
+          </a>
+
+          {/* 3 action buttons — center-bottom */}
+          <div className="pc-actions">
+            {/* Quick View */}
+            <a
+              className="pc-action-btn"
+              href="#"
+              title="Xem nhanh"
+              onClick={(e) => {
+                e.preventDefault();
+                if (onQuickView) onQuickView(product);
+              }}
+            >
+              <i className="fas fa-search" />
+            </a>
+
+            {/* Add to Cart */}
+            {!isOutOfStock ? (
+              <a
+                className="pc-action-btn"
+                href="#"
+                title="Thêm vào giỏ hàng"
+                onClick={handleAddToCart}
+              >
+                <i className="fas fa-shopping-cart" />
+              </a>
+            ) : (
+              <a
+                className="pc-action-btn pc-action-btn--disabled"
+                href="#"
+                title="Hết hàng"
+                onClick={(e) => e.preventDefault()}
+              >
+                <i className="fas fa-ban" />
+              </a>
+            )}
+
+            {/* Compare */}
+            <a className="pc-action-btn" href="#" title="So sánh">
+              <i className="fas fa-random" />
+            </a>
+          </div>
+        </div>
       </div>
-      <div className="product-info">
-        <h6 className="title">
+
+      {/* ── INFO (title + price) — hidden on hover ── */}
+      <div className="pc-info">
+        <h6 className="pc-title">
           <Link to={link}>{title}</Link>
         </h6>
-        <span className="price">
+        <span className="pc-price">
           {oldPrice ? (
             <>
-              <span className="old">{oldPrice}</span>
-              <span className="new">{priceDisplay}</span>
+              <span className="pc-price--old">{oldPrice}</span>
+              <span className="pc-price--new">{priceDisplay}</span>
             </>
           ) : (
             priceDisplay
           )}
         </span>
-        <div className="product-buttons">
-          <a
-            className="product-button hintT-top"
-            data-bs-toggle="modal"
-            data-hint="Quick View"
-            href="#quickViewModal"
-            onClick={(e) => {
-              if (onQuickView) {
-                e.preventDefault();
-                onQuickView(product);
-              }
-            }}
-          >
-            <i className="fas fa-search"></i>
-          </a>
-          {!isOutOfStock ? (
-            <a
-              className="product-button hintT-top"
-              data-hint="Add to Cart"
-              href="#"
-              onClick={handleAddToCart}
-            >
-              <i className="fas fa-shopping-cart"></i>
-            </a>
-          ) : (
-            <a
-              className="product-button hintT-top disabled"
-              data-hint="Out of Stock"
-              href="#"
-              style={{ cursor: "not-allowed", opacity: 0.5 }}
-              onClick={(e) => e.preventDefault()}
-            >
-              <i className="fas fa-ban"></i>
-            </a>
-          )}
-          <a className="product-button hintT-top" data-hint="Compare" href="#">
-            <i className="fas fa-random"></i>
-          </a>
-        </div>
       </div>
     </div>
   );
