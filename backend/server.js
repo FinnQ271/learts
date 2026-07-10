@@ -2,14 +2,27 @@ import express from "express";
 import cors from "cors";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import path from "path";
+import fs from "fs";
+import { fileURLToPath } from "url";
 import { initDb, db } from "./db.js";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const uploadsDir = path.join(__dirname, "uploads");
+
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 const JWT_SECRET = "learts_secret_jwt_key_2026";
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
+app.use("/api/uploads", express.static(uploadsDir));
 
 // Initialize Database
 await initDb();
@@ -162,6 +175,52 @@ app.post("/api/auth/login", async (req, res) => {
 // -------------------------------------------------------------
 // MODULE 2: PRODUCT & CATEGORY APIs
 // -------------------------------------------------------------
+
+// POST /api/upload - Admin Upload Image (Base64)
+app.post("/api/upload", authenticateToken, (req, res) => {
+  try {
+    const { filename, base64Data } = req.body;
+    if (!filename || !base64Data) {
+      return res.status(400).json({
+        success: false,
+        message: "Filename and base64Data are required",
+        data: null,
+      });
+    }
+
+    const ext = path.extname(filename).toLowerCase();
+    const allowedExtensions = [".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg"];
+    if (!allowedExtensions.includes(ext)) {
+      return res.status(400).json({
+        success: false,
+        message: "Only image files (PNG, JPG, JPEG, GIF, WEBP, SVG) are allowed",
+        data: null,
+      });
+    }
+
+    const uniqueFilename = `${Date.now()}-${filename.replace(/[^a-zA-Z0-9.-]/g, "_")}`;
+    const filePath = path.join(uploadsDir, uniqueFilename);
+
+    // Save base64 to file
+    const buffer = Buffer.from(base64Data, "base64");
+    fs.writeFileSync(filePath, buffer);
+
+    res.json({
+      success: true,
+      message: "Image uploaded successfully",
+      data: {
+        url: `/api/uploads/${uniqueFilename}`,
+      },
+    });
+  } catch (error) {
+    console.error("Upload API error:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message || "Failed to upload image",
+      data: null,
+    });
+  }
+});
 
 // GET /api/categories - Public
 app.get("/api/categories", (req, res) => {

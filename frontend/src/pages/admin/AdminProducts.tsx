@@ -22,6 +22,8 @@ export default function AdminProducts() {
   const [description, setDescription] = useState("");
   const [sku, setSku] = useState("");
   const [brand, setBrand] = useState("");
+  const [imageSource, setImageSource] = useState<"url" | "file">("url");
+  const [isUploading, setIsUploading] = useState(false);
   
   const navigate = useNavigate();
   const token = localStorage.getItem("adminToken");
@@ -66,6 +68,7 @@ export default function AdminProducts() {
     setStock("");
     setCategory(categories[0]?.title || "");
     setImage("");
+    setImageSource("url");
     setDescription("");
     setSku("");
     setBrand("");
@@ -79,6 +82,7 @@ export default function AdminProducts() {
     setStock(product.stock.toString());
     setCategory(product.category);
     setImage(product.image);
+    setImageSource(product.image.startsWith("/api/uploads/") ? "file" : "url");
     setDescription(product.description || "");
     setSku(product.sku || "");
     setBrand(product.brand || "");
@@ -88,6 +92,53 @@ export default function AdminProducts() {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setEditingProduct(null);
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert("File size must be under 5MB.");
+      return;
+    }
+
+    setIsUploading(true);
+    const reader = new FileReader();
+    reader.onload = async () => {
+      try {
+        const base64String = (reader.result as string).split(",")[1];
+        const response = await fetch("/api/upload", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            filename: file.name,
+            base64Data: base64String,
+          }),
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.message || "Failed to upload image");
+        }
+
+        setImage(data.data.url);
+      } catch (err: any) {
+        console.error("Upload image error:", err);
+        alert(err.message || "An error occurred while uploading the image.");
+      } finally {
+        setIsUploading(false);
+      }
+    };
+    reader.onerror = (error) => {
+      console.error("Error reading file:", error);
+      alert("Error reading file.");
+      setIsUploading(false);
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -308,8 +359,84 @@ export default function AdminProducts() {
                     </div>
 
                     <div className="col-12">
-                      <label className="form-label" style={{ fontWeight: "600" }}>Image URL Link <abbr style={{ color: "red" }}>*</abbr></label>
-                      <input type="text" className="form-control" value={image} onChange={(e) => setImage(e.target.value)} placeholder="/assets/images/product/..." required />
+                      <label className="form-label" style={{ fontWeight: "600" }}>Product Image / Hình ảnh sản phẩm <abbr style={{ color: "red" }}>*</abbr></label>
+                      
+                      <div className="btn-group w-100 mb-3" role="group">
+                        <input
+                          type="radio"
+                          className="btn-check"
+                          name="imageSource"
+                          id="imageSourceUrl"
+                          autoComplete="off"
+                          checked={imageSource === "url"}
+                          onChange={() => setImageSource("url")}
+                        />
+                        <label className="btn btn-outline-dark" htmlFor="imageSourceUrl" style={{ fontSize: "14px" }}>
+                          Dán link URL / Paste Image URL
+                        </label>
+
+                        <input
+                          type="radio"
+                          className="btn-check"
+                          name="imageSource"
+                          id="imageSourceFile"
+                          autoComplete="off"
+                          checked={imageSource === "file"}
+                          onChange={() => setImageSource("file")}
+                        />
+                        <label className="btn btn-outline-dark" htmlFor="imageSourceFile" style={{ fontSize: "14px" }}>
+                          Tải ảnh từ máy tính / Upload from Computer
+                        </label>
+                      </div>
+
+                      {imageSource === "url" ? (
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={image}
+                          onChange={(e) => setImage(e.target.value)}
+                          placeholder="http://example.com/image.jpg or /assets/images/product/..."
+                          required
+                        />
+                      ) : (
+                        <div className="d-flex flex-column gap-2">
+                          <input
+                            type="file"
+                            className="form-control"
+                            accept="image/*"
+                            onChange={handleImageUpload}
+                            required={!image}
+                          />
+                          {isUploading && (
+                            <div className="d-flex align-items-center gap-2 mt-1 text-primary">
+                              <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                              <span style={{ fontSize: "13px" }}>Đang tải ảnh lên / Uploading image...</span>
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {image && (
+                        <div className="mt-3 p-3 border rounded text-center" style={{ background: "#f8f9fa" }}>
+                          <span className="d-block text-muted mb-2" style={{ fontSize: "12px", fontWeight: "600" }}>
+                            Xem trước hình ảnh / Image Preview:
+                          </span>
+                          <img
+                            src={image}
+                            alt="Preview"
+                            style={{ maxHeight: "150px", maxWidth: "100%", objectFit: "contain", borderRadius: "4px", border: "1px solid #ddd" }}
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).style.display = "none";
+                            }}
+                            onLoad={(e) => {
+                              (e.target as HTMLImageElement).style.display = "inline-block";
+                            }}
+                          />
+                          <div className="text-muted mt-2" style={{ fontSize: "11px", wordBreak: "break-all" }}>
+                            <code>{image}</code>
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     <div className="col-md-6 col-12">
