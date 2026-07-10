@@ -4,61 +4,66 @@
 #root { min-height: 100vh; }
 main  { display: block; }
 
-/* ─────────────────────────────────────────
+/* ═══════════════════════════════════════════════════════════
    PRODUCT CARD  (.pc-*)
-   Hover spec:
-     DEFAULT  → main image · title · price visible
-     HOVERED  → hover image · title/price hidden
-                wishlist icon (top-right) + 3 action buttons (bottom-center) appear
-   No layout shift — all overlays are absolute.
-───────────────────────────────────────── */
+   ═══════════════════════════════════════════════════════════
 
-/* 1. Card wrapper */
+   Card anatomy:
+   ┌──────────────────────────────┐
+   │  pc-thumb (aspect-ratio box) │  ← images swap, wishlist appears
+   │    pc-img--main (default)    │
+   │    pc-img--hover (on hover)  │
+   │    pc-wishlist  (top-right)  │
+   ├──────────────────────────────┤
+   │  pc-footer (FIXED HEIGHT)    │  ← 2 layers stacked, swap on hover
+   │    pc-info    (default)      │  title + price
+   │    pc-actions (on hover)     │  3 round dark buttons
+   └──────────────────────────────┘
+
+   Key rules:
+   • pc-footer has a FIXED min-height so neither layer changes card height
+   • Both pc-info and pc-actions are position:absolute inside pc-footer
+   • Transition is pure CSS opacity + transform — no JS, no reflow
+═══════════════════════════════════════════════════════════ */
+
+/* ── 1. Card wrapper ── */
 .pc-card {
   display: flex;
   flex-direction: column;
   height: 100%;
   background: #fff;
-  /* no margin — the Bootstrap grid gap handles spacing */
+  cursor: pointer;
+  /* no extra margins — Bootstrap g-4 gap handles spacing */
 }
 
-/* 2. Thumbnail (fixed aspect-ratio box) */
+/* ── 2. Thumbnail (aspect-ratio image box) ── */
 .pc-thumb {
   position: relative;
   width: 100%;
-  aspect-ratio: 270 / 330;    /* matches template image ratio */
+  aspect-ratio: 270 / 330;   /* matches the template's standard image ratio */
   background-color: #f4f4f4;
   overflow: hidden;
-  border-radius: 2px;
-  cursor: pointer;
+  flex-shrink: 0;
 }
 
-/* 3. Full-bleed image link */
-.pc-img-link {
-  display: block;
-  position: absolute;
-  inset: 0;
-  text-decoration: none;
-}
-
-/* 4. Both images — stacked, full size */
+/* ── 3. Images ── */
 .pc-img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.35s ease;
+  display: block;
 }
 
 .pc-img--main  { opacity: 1; z-index: 1; }
 .pc-img--hover { opacity: 0; z-index: 2; }
 
-/* Swap images on hover */
 .pc-card:hover .pc-img--main  { opacity: 0; }
 .pc-card:hover .pc-img--hover { opacity: 1; }
 
-/* 5. Badges — always top-left, above everything */
+/* ── 4. Badges (always visible, top-left) ── */
 .pc-badges {
   position: absolute;
   top: 12px;
@@ -74,58 +79,47 @@ main  { display: block; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 46px;
-  height: 46px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
   color: #fff;
   line-height: 1;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
   text-align: center;
   padding: 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.18);
 }
+.pc-badge--hot  { background: #c92c2c; }
+.pc-badge--sale { background: #5cb85c; }
+.pc-badge--new  { background: #a87057; }
+.pc-badge--out  { background: #999;    font-size: 9px; }
 
-.pc-badge--hot  { background-color: #c92c2c; }
-.pc-badge--sale { background-color: #5cb85c; }
-.pc-badge--new  { background-color: #a87057; }
-.pc-badge--out  { background-color: #999; font-size: 16px; }
-
-/* 6. Hover overlay — covers the thumb, invisible until hover */
-.pc-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 10;
-  pointer-events: none;         /* pass-through by default */
-  transition: opacity 0.3s ease;
-}
-
-.pc-card:hover .pc-overlay {
-  pointer-events: auto;         /* enable clicks on hover */
-}
-
-/* 7. Wishlist button — top-right, appears on hover */
+/* ── 5. Wishlist button (top-right of thumb, appears on hover) ── */
 .pc-wishlist {
   position: absolute;
   top: 12px;
   right: 12px;
-  z-index: 15;
-  width: 36px;
-  height: 36px;
+  z-index: 20;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-  background: #fff;
+  border: none;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #333;
-  font-size: 14px;
-  text-decoration: none;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  transition: opacity 0.3s ease, transform 0.3s ease, color 0.2s ease, background 0.2s ease;
+  font-size: 16px;
+  color: #e25c5c;
+  cursor: pointer;
+  padding: 0;
+
   /* hidden by default */
   opacity: 0;
   transform: translateY(-6px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition-delay: 0.05s;
 }
 
 .pc-card:hover .pc-wishlist {
@@ -133,75 +127,36 @@ main  { display: block; }
   transform: translateY(0);
 }
 
-.pc-wishlist:hover {
-  background: #c92c2c;
-  color: #fff;
-}
-
+.pc-wishlist--active { color: #e25c5c; }
+.pc-wishlist .far.fa-heart { color: #e25c5c; }
 .pc-wishlist .fas.fa-heart { color: #e25c5c; }
-.pc-wishlist:hover .fas.fa-heart { color: #fff; }
 
-/* 8. Action buttons row — center-bottom, appears on hover */
-.pc-actions {
-  position: absolute;
-  bottom: 16px;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  z-index: 15;
-  /* hidden by default */
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+/* ══════════════════════════════════════════
+   6. FOOTER (fixed height — the key to no layout shift)
+══════════════════════════════════════════ */
+.pc-footer {
+  position: relative;
+  min-height: 66px;     /* enough for 2 lines of title + price */
+  flex-shrink: 0;
+  /* children are absolute, so footer acts as a fixed-height stage */
 }
 
-.pc-card:hover .pc-actions {
+/* ── 7. Info layer (title + price) — default ── */
+.pc-info {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 8px 0;
+  text-align: center;
+
+  /* visible by default */
   opacity: 1;
   transform: translateY(0);
-}
-
-.pc-action-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: #fff;
-  color: #333;
-  font-size: 14px;
-  text-decoration: none;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
-}
-
-.pc-action-btn:hover {
-  background: #333;
-  color: #fff;
-  transform: scale(1.1);
-}
-
-.pc-action-btn--disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-
-.pc-action-btn--disabled:hover {
-  background: #fff;
-  color: #333;
-  transform: none;
-}
-
-/* 9. Info area (title + price) — visible by default, fades out on hover */
-.pc-info {
-  padding: 14px 4px 6px;
-  text-align: center;
   transition: opacity 0.3s ease, transform 0.3s ease;
-  /* reserve space so the card height never changes */
-  min-height: 56px;
+  pointer-events: auto;
 }
 
 .pc-card:hover .pc-info {
@@ -210,40 +165,95 @@ main  { display: block; }
   pointer-events: none;
 }
 
-/* 10. Title */
 .pc-title {
   font-size: 14px;
-  font-weight: 500;
-  margin: 0 0 6px;
+  font-weight: 400;
+  margin: 0 0 5px;
   line-height: 1.4;
-  overflow: hidden;
+  color: #333;
+  /* up to 2 lines, then ellipsis */
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .pc-title a {
-  color: #333;
+  color: inherit;
   text-decoration: none;
-  transition: color 0.2s;
 }
-
 .pc-title a:hover { color: #a87057; }
 
-/* 11. Price */
 .pc-price {
   display: block;
   font-size: 14px;
-  font-weight: 600;
-  color: #a87057;
-  line-height: 1.3;
+  font-weight: 700;
+  color: #333;
+  line-height: 1;
 }
 
 .pc-price--old {
   text-decoration: line-through;
   color: #aaa;
   font-weight: 400;
-  margin-right: 6px;
+  margin-right: 5px;
+  font-size: 13px;
 }
 
 .pc-price--new { color: #c92c2c; }
+
+/* ── 8. Actions layer (3 buttons) — appears on hover ── */
+.pc-actions {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  /* hidden by default */
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+
+.pc-card:hover .pc-actions {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* ── 9. Individual action button ── */
+.pc-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  background: #333;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  text-decoration: none;
+}
+
+.pc-action-btn:hover {
+  background: #a87057;
+  transform: scale(1.08);
+  color: #fff;
+}
+
+.pc-action-btn--disabled {
+  background: #bbb;
+  cursor: not-allowed;
+}
+.pc-action-btn--disabled:hover {
+  background: #bbb;
+  transform: none;
+}
